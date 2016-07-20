@@ -4,6 +4,7 @@ import {
   REDIRECT_URI
 } from '../constants/auth'
 
+import { setTracks } from '../actions/track'
 import * as actionTypes from '../constants/actionTypes'
 
 function setMe(user) {
@@ -25,7 +26,18 @@ export function auth() {
         .then((response => response.json()))
         .then((me) => {
           dispatch(setMe(me))
+          dispatch(fetchStream(me, session))
         })
     })
+  }
+}
+
+function fetchStream(me, session) {
+  return function (dispatch) {
+    fetch(`//api.soundcloud.com/me/activities?limit=20&offset=0&oauth_token=${session.oauth_token}`)
+      .then(response => response.json())
+      .then((data) => {
+        dispatch(setTracks(data.collection))
+      })
   }
 }
