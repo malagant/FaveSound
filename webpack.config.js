@@ -1,3 +1,5 @@
+var webpack = require('webpack')
+
 module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:4001',
@@ -22,6 +24,12 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     hot: true,
-    port: 4001
-  }
+    port: 4001,
+    historyApiFallback: true
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    })
+  ]
 }
