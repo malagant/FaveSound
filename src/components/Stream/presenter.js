@@ -6,7 +6,11 @@ function Stream({user, tracks = [], onAuth}) {
       <div>
         {
           user ?
-            <div>{user.username}</div> :
+            <div>
+              <img src={user.avatar_url} alt={user.username}/>
+              <br/>
+              {user.username}
+            </div> :
             <button onClick={onAuth} type="button">Login</button>
         }
       </div>
